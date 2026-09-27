@@ -2,11 +2,42 @@
 //
 
 #include <iostream>
+#include <vector>
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    std::vector<std::vector<int>> maze = {
+        {0, 0, 0, 1, 0, 0, 0},
+        {1, 1, 0, 1, 0, 1, 0},
+        {0, 0, 0, 0, 0, 1, 0},
+        {0, 1, 1, 1, 0, 0, 0}
+    }; //hardcoded starting maze
+
+    for (int row = 0; row < maze.size(); row++)
+    {
+        for (int col = 0; col < maze[row].size(); col++)
+        {
+            if (maze[row][col] == 0)
+                std::cout << ". ";
+            else
+                std::cout << "# ";
+        }
+
+        std::cout << "\n";
+    }
+
+    return 0;
 }
+
+struct Node
+{
+    int row;
+    int col;
+
+    int g;
+    int h;
+    int f;
+};
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
