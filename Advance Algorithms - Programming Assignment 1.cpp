@@ -17,16 +17,34 @@ int main() {
     //    {0, 1, 1, 1, 0, 0, 0}
     //}; //hardcoded starting maze
 
+    int goalRow, goalCol;
+
+	std::cout << "Enter goal row (0-9): "; //prompt user to enter the row index of the goal position in the maze
+    std::cin >> goalRow;
+
+	std::cout << "Enter goal column (0-9): "; //prompt user to enter the column index of the goal position in the maze
+    std::cin >> goalCol;
+
+    Node goal{goalRow, goalCol, 0, 0, 0, -1, -1 };
+
     const int rows = 10;
     const int cols = 10;
 
 	std::vector<std::vector<int>> maze = generateMaze(rows, cols); //generate a random maze with the specified number of rows and columns
     
     Node start{ 0, 0, 0, 0, 0, -1, -1 }; //initialize start node with row, col, g, h, f values
-    Node goal{ 3, 6, 0, 0, 0, -1, -1 }; //initialize goal node with row, col, g, h, f values
+
+	if (goal.row < 0 || goal.row >= rows || goal.col < 0 || goal.col >= cols) { //check if the goal position is within the bounds of the maze
+        std::cout << "Invalid goal position!\n";
+        return 0;
+    }
 
 	maze[start.row][start.col] = 0; //ensure that the starting position in the maze is a path (0) and not a wall (1)
-	maze[goal.row][goal.col] = 0; //ensure that the goal position in the maze is a path (0) and not a wall (1)
+	
+	if (maze[goal.row][goal.col] == 1) { //check if the goal position in the maze is a wall (1)
+        std::cout << "That position is a wall!\n";
+        return 0;
+    }
 
 	start.h = std::abs(start.row - goal.row) + std::abs(start.col - goal.col); //formula for calculating heuristic value (h) using Manhattan distance
 	start.f = start.g + start.h; //calculate the f value (total cost) for the start node
