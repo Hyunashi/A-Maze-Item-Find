@@ -61,9 +61,9 @@ std::vector<Node> aStar(const std::vector<std::vector<int>>& maze, Node start, N
                     newF,
                     current.row,
                     current.col
-                };
+				}; //create a new neighbor node with the updated values
 
-                openList.push(neighbor);
+				openList.push(neighbor); //add the neighbor node to the priority queue
             }
         }
     }

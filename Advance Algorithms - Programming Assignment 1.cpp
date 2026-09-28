@@ -19,18 +19,18 @@ int main() {
 
 	goal.h = std::abs(start.row - goal.row) + std::abs(start.col - goal.col); //formula for calculating heuristic value (h) using Manhattan distance
 
-    for (int row = 0; row < maze.size(); row++) {
-        for (int col = 0; col < maze[row].size(); col++) {
-            if (row == start.row && col == start.col)
+	for (int row = 0; row < maze.size(); row++) { //loop through each row of the maze
+		for (int col = 0; col < maze[row].size(); col++) { //loop through each column of the maze
+			if (row == start.row && col == start.col) //check if the current position is the starting node
                 std::cout << "S ";
-            else if (row == goal.row && col == goal.col)
+			else if (row == goal.row && col == goal.col) //check if the current position is the goal node
                 std::cout << "F ";
-            else if (maze[row][col] == 0)
+			else if (maze[row][col] == 0) //check if the current position is a path (0) or a wall (1)
                 std::cout << ". ";
-            else
+			else 
                 std::cout << "# ";
         }
-        std::cout << "\n";
+		std::cout << "\n"; //newline after each row of the maze
     }
 
     return 0;
