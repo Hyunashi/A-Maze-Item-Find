@@ -18,6 +18,10 @@ std::vector<Node> aStar(const std::vector<std::vector<int>>& maze, Node start, N
 	while (!openList.empty()) { //loop while there are still nodes in the open list
 		Node current = openList.top(); //get the node with the lowest f value from the priority queue
 		openList.pop(); //remove the node from the priority queue
+
+        if (current.row == goal.row && current.col == goal.col) {
+            
+        }
     }
 
     return {};

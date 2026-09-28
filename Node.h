@@ -8,4 +8,7 @@ struct Node
     int g;
     int h;
     int f;
+
+    int parentRow;
+    int parentCol;
 };
