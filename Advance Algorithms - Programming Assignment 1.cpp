@@ -30,14 +30,14 @@ int main() {
     const int rows = 10;
     const int cols = 10;
 
-	std::vector<std::vector<int>> maze = generateMaze(rows, cols); //generate a random maze with the specified number of rows and columns
-    
-    Node start{ 0, 0, 0, 0, 0, -1, -1 }; //initialize start node with row, col, g, h, f values
-
-	if (goal.row < 0 || goal.row >= rows || goal.col < 0 || goal.col >= cols) { //check if the goal position is within the bounds of the maze
+    if (goal.row < 0 || goal.row >= rows || goal.col < 0 || goal.col >= cols) { //check if the goal position is within the bounds of the maze
         std::cout << "Invalid goal position!\n";
         return 0;
     }
+
+	std::vector<std::vector<int>> maze = generateMaze(rows, cols); //generate a random maze with the specified number of rows and columns
+    
+    Node start{ 0, 0, 0, 0, 0, -1, -1 }; //initialize start node with row, col, g, h, f values
 
 	maze[start.row][start.col] = 0; //ensure that the starting position in the maze is a path (0) and not a wall (1)
 	
@@ -55,7 +55,7 @@ int main() {
 		maze = generateMaze(rows, cols);  //generate a new random maze with the specified number of rows and columns   
 
 		maze[start.row][start.col] = 0; //ensure that the starting position in the maze is a path (0) and not a wall (1)
-		maze[goal.row][goal.col] = 0; //ensure that the goal position in the maze is a path (0) and not a wall (1)
+		maze[goal.row][goal.col] = 0; //ensure that the goal position in the maze is a path (0) doesn't turn into a wall (1) in the new maze
 
 		path = aStar(maze, start, goal); //call the aStar function again to find the path from start to goal in the new maze
     }
