@@ -33,10 +33,13 @@ int main() {
 
 	std::vector<Node> path = aStar(maze, start, goal); //call the aStar function to find the path from start to goal
 
-	while (path.empty()) { //check if the path vector is empty, indicating that no path was found
-        std::vector<std::vector<int>> maze = generateMaze(rows, cols); //generate a random maze with the specified number of rows and columns
+	while (path.empty()) { //if the path vector is empty, indicating that no path was found, generate a new maze and try again
+		maze = generateMaze(rows, cols);  //generate a new random maze with the specified number of rows and columns   
 
-        std::vector<Node> path = aStar(maze, start, goal); //call the aStar function to find the path from start to goal
+		maze[start.row][start.col] = 0; //ensure that the starting position in the maze is a path (0) and not a wall (1)
+		maze[goal.row][goal.col] = 0; //ensure that the goal position in the maze is a path (0) and not a wall (1)
+
+		path = aStar(maze, start, goal); //call the aStar function again to find the path from start to goal in the new maze
     }
 
 	if (path.empty()) { //check if the path vector is empty, indicating that no path was found
