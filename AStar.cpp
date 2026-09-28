@@ -22,6 +22,22 @@ std::vector<Node> aStar(const std::vector<std::vector<int>>& maze, Node start, N
         if (current.row == goal.row && current.col == goal.col) {
             
         }
+
+		int rowChange[] = { -1, 1, 0, 0 }; //Store the different row and column changes for moving up, down, left, and right in the maze
+        int colChange[] = { 0, 0, -1, 1 };
+
+		for (int i = 0; i < 4; i++) { //loop through the four possible directions (up, down, left, right)
+			int newRow = current.row + rowChange[i]; //calculate the new row and column indices based on the current node's position and the direction of movement
+            int newCol = current.col + colChange[i];
+            
+			if (newRow < 0 || newRow >= maze.size() || newCol < 0 || newCol >= maze[0].size()) { //check if the new position is out of bounds
+                continue;
+            }
+
+			if (maze[newRow][newCol] == 1) { //check if the new position is a wall
+                continue;
+            }
+        }
     }
 
     return {};

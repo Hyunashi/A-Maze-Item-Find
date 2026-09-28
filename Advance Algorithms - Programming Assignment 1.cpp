@@ -14,8 +14,8 @@ int main() {
         {0, 1, 1, 1, 0, 0, 0}
     }; //hardcoded starting maze
 
-	Node start{ 0, 0, 0, 0, 0 }; //initialize start node with row, col, g, h, f values
-	Node goal{ 3, 6, 0, 0, 0 }; //initialize goal node with row, col, g, h, f values
+    Node start{ 0, 0, 0, 0, 0, -1, -1 }; //initialize start node with row, col, g, h, f values
+    Node goal{ 3, 6, 0, 0, 0, -1, -1 }; //initialize goal node with row, col, g, h, f values
 
 	goal.h = std::abs(start.row - goal.row) + std::abs(start.col - goal.col); //formula for calculating heuristic value (h) using Manhattan distance
 
