@@ -124,8 +124,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Advance Algorithms - Programming Assignment 1.cpp" />
+    <ClCompile Include="AStar.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AStar.h" />
     <ClInclude Include="Node.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
