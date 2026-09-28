@@ -46,19 +46,25 @@ std::vector<Node> aStar(const std::vector<std::vector<int>>& maze, Node start, N
 
 			int newG = current.g + 1; //calculate the new g value (cost from start to current node (Current distance))
 
-			int newH = std::abs(newRow - goal.row) + std::abs(newCol - goal.col);  //calculate the new h value (Estimated distance to the goal)
+			if (newG < gScore[newRow][newCol]) { //check if the new g value is less than the previously recorded g value for this node
+                gScore[newRow][newCol] = newG;
 
-			int newF = newG + newH; //calculate the new f value (total cost) g + h
+                int newH = std::abs(newRow - goal.row) + std::abs(newCol - goal.col);  //calculate the new h value (Estimated distance to the goal)
 
-            Node neighbor{
-                newRow,
-                newCol,
-                newG,
-                newH,
-                newF,
-                current.row,
-                current.col
-            };
+                int newF = newG + newH; //calculate the new f value (total cost) g + h
+
+                Node neighbor{
+                    newRow,
+                    newCol,
+                    newG,
+                    newH,
+                    newF,
+                    current.row,
+                    current.col
+                };
+
+                openList.push(neighbor);
+            }
         }
     }
 
