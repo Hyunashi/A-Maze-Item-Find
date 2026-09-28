@@ -17,6 +17,8 @@ std::vector<Node> aStar(const std::vector<std::vector<int>>& maze, Node start, N
 
 	gScore[start.row][start.col] = 0; //set the g value of the starting node to 0
 
+	std::vector<std::vector<std::pair<int, int>>> parent(maze.size(), std::vector<std::pair<int, int>>(maze[0].size(), { -1, -1 })); //create a 2D vector to store the parent node of each node in the maze, to return the path
+
 	std::priority_queue<Node, std::vector<Node>, CompareNode> openList; //create a priority queue to store nodes to be evaluated
     
 	openList.push(start); //push first starting node into the priority queue
@@ -48,6 +50,8 @@ std::vector<Node> aStar(const std::vector<std::vector<int>>& maze, Node start, N
 
 			if (newG < gScore[newRow][newCol]) { //check if the new g value is less than the previously recorded g value for this node
                 gScore[newRow][newCol] = newG;
+
+				parent[newRow][newCol] = { current.row, current.col }; //record in the parent node where the current node came from (to reconstruct the path later)
 
                 int newH = std::abs(newRow - goal.row) + std::abs(newCol - goal.col);  //calculate the new h value (Estimated distance to the goal)
 
