@@ -44,6 +44,11 @@ int main() {
 
 	std::vector<Node> path = aStar(maze, start, goal); //call the aStar function to find the path from start to goal
 
+    while (path.empty()) {
+        // Regenerate the maze
+        // Run A* again
+    }
+
 	if (path.empty()) { //check if the path vector is empty, indicating that no path was found
         std::cout << "No path found!\n";
         return 0;
