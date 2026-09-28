@@ -6,17 +6,38 @@
 #include "Node.h"
 #include <cstdlib>
 #include "AStar.h"
+#include <random>
 
 int main() {
-    std::vector<std::vector<int>> maze = {
-        {0, 0, 0, 1, 0, 0, 0},
-        {1, 1, 0, 1, 0, 1, 0},
-        {0, 0, 0, 0, 0, 1, 0},
-        {0, 1, 1, 1, 0, 0, 0}
-    }; //hardcoded starting maze
+    //std::vector<std::vector<int>> maze = {
+    //    {0, 0, 0, 1, 0, 0, 0},
+    //    {1, 1, 0, 1, 0, 1, 0},
+    //    {0, 0, 0, 0, 0, 1, 0},
+    //    {0, 1, 1, 1, 0, 0, 0}
+    //}; //hardcoded starting maze
+
+    const int rows = 10;
+    const int cols = 10;
+
+    std::vector<std::vector<int>> maze(rows, std::vector<int>(cols, 0)); //create a 10 by 10 grid for a maze to be made
+
+	std::random_device rd; //seed for random number generator
+	std::mt19937 gen(rd()); //initialize random number generator with the seed
+	std::uniform_int_distribution<> dist(0, 99); //create a uniform distribution to generate random numbers between 0 and 99
+
+	for (int row = 0; row < rows; row++) { //loop through each row of the maze
+		for (int col = 0; col < cols; col++) { //loop through each column of the maze
+			if (dist(gen) < 30) { //30% chance of generating a wall (1) in the maze
+				maze[row][col] = 1; //set the current position in the maze to a wall (1)
+            }
+        }
+    }
 
     Node start{ 0, 0, 0, 0, 0, -1, -1 }; //initialize start node with row, col, g, h, f values
     Node goal{ 3, 6, 0, 0, 0, -1, -1 }; //initialize goal node with row, col, g, h, f values
+
+	maze[start.row][start.col] = 0; //ensure that the starting position in the maze is a path (0) and not a wall (1)
+	maze[goal.row][goal.col] = 0; //ensure that the goal position in the maze is a path (0) and not a wall (1)
 
 	start.h = std::abs(start.row - goal.row) + std::abs(start.col - goal.col); //formula for calculating heuristic value (h) using Manhattan distance
 	start.f = start.g + start.h; //calculate the f value (total cost) for the start node
@@ -39,8 +60,6 @@ int main() {
 	//for (Node& node : path) { //loop through each node in the path vector and print its row and column indices
     //    std::cout << "(" << node.row << ", " << node.col << ")\n";
     //}
-
-	goal.h = std::abs(start.row - goal.row) + std::abs(start.col - goal.col); //formula for calculating heuristic value (h) using Manhattan distance
 
 	for (int row = 0; row < maze.size(); row++) { //loop through each row of the maze
 		for (int col = 0; col < maze[row].size(); col++) { //loop through each column of the maze
