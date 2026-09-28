@@ -3,6 +3,7 @@
 #include <queue>
 #include <vector>
 #include <cmath>
+#include <climits>
 
 struct CompareNode {
     bool operator()(const Node& a, const Node& b) const {
@@ -11,6 +12,11 @@ struct CompareNode {
 };
 
 std::vector<Node> aStar(const std::vector<std::vector<int>>& maze, Node start, Node goal) {
+
+	std::vector<std::vector<int>> gScore(maze.size(), std::vector<int>(maze[0].size(), INT_MAX)); //create a 2D vector to store the g values for each node in the maze, initialise as infinintty 
+
+	gScore[start.row][start.col] = 0; //set the g value of the starting node to 0
+
 	std::priority_queue<Node, std::vector<Node>, CompareNode> openList; //create a priority queue to store nodes to be evaluated
     
 	openList.push(start); //push first starting node into the priority queue
@@ -37,6 +43,22 @@ std::vector<Node> aStar(const std::vector<std::vector<int>>& maze, Node start, N
 			if (maze[newRow][newCol] == 1) { //check if the new position is a wall
                 continue;
             }
+
+			int newG = current.g + 1; //calculate the new g value (cost from start to current node (Current distance))
+
+			int newH = std::abs(newRow - goal.row) + std::abs(newCol - goal.col);  //calculate the new h value (Estimated distance to the goal)
+
+			int newF = newG + newH; //calculate the new f value (total cost) g + h
+
+            Node neighbor{
+                newRow,
+                newCol,
+                newG,
+                newH,
+                newF,
+                current.row,
+                current.col
+            };
         }
     }
 
