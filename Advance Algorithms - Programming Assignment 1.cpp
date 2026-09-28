@@ -29,11 +29,11 @@ int main() {
         pathGrid[node.row][node.col] = true;
     }
 
-    std::cout << "\nPath:\n";
+	//std::cout << "\nPath:\n"; //print the path found by the A* algorithm
 
-    for (Node node : path) {
-        std::cout << "(" << node.row << ", " << node.col << ")\n";
-    }
+	//for (Node& node : path) { //loop through each node in the path vector and print its row and column indices
+    //    std::cout << "(" << node.row << ", " << node.col << ")\n";
+    //}
 
 	goal.h = std::abs(start.row - goal.row) + std::abs(start.col - goal.col); //formula for calculating heuristic value (h) using Manhattan distance
 
