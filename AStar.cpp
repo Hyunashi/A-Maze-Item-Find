@@ -27,8 +27,27 @@ std::vector<Node> aStar(const std::vector<std::vector<int>>& maze, Node start, N
 		Node current = openList.top(); //get the node with the lowest f value from the priority queue
 		openList.pop(); //remove the node from the priority queue
 
-        if (current.row == goal.row && current.col == goal.col) {
-            
+        if (current.row == goal.row && current.col == goal.col) { //if the current node is the goal node, reconstruct the path by following the parent nodes back to the start node
+			std::vector<Node> path; //create a vector to store the path from start to goal
+
+            int row = current.row;
+			int col = current.col; //initialize row and col variables to the current node's position
+
+			while (row != start.row || col != start.col) { //loop until the current node is the starting node
+				path.push_back(Node{ row, col, 0, 0, 0, -1, -1 }); //add the current node to the path vector
+
+				int parentRow = parent[row][col].first; //get the row index of the parent node from the parent vector
+				int parentCol = parent[row][col].second; //get the column index of the parent node from the parent vector
+
+				row = parentRow; //update the row and column indices to the parent node's position
+                col = parentCol;
+            }
+
+			path.push_back(Node{ start.row, start.col, 0, 0, 0, -1, -1 }); //add the starting node to the path vector since the loop ends before the starting node is added
+
+			std::reverse(path.begin(), path.end()); //reverse the path vector so that it goes from start to goal
+
+			return path; //return the path vector
         }
 
 		int rowChange[] = { -1, 1, 0, 0 }; //Store the different row and column changes for moving up, down, left, and right in the maze
