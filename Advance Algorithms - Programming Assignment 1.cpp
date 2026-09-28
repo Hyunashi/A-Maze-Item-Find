@@ -23,9 +23,14 @@ int main() {
 
 	std::vector<Node> path = aStar(maze, start, goal); //call the aStar function to find the path from start to goal
 
+	if (path.empty()) { //check if the path vector is empty, indicating that no path was found
+        std::cout << "No path found!\n";
+        return 0;
+    }
+
 	std::vector<std::vector<bool>> pathGrid(maze.size(), std::vector<bool>(maze[0].size(), false)); //create a 2D vector to store the path grid with the same dimensions as the maze, initialized to false
 
-    for (Node& node : path) {
+    for (const Node& node : path) {
         pathGrid[node.row][node.col] = true;
     }
 
