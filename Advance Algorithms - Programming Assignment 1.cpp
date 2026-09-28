@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include "AStar.h"
 #include <random>
+#include "Maze.h"
 
 int main() {
     //std::vector<std::vector<int>> maze = {
@@ -19,20 +20,8 @@ int main() {
     const int rows = 10;
     const int cols = 10;
 
-    std::vector<std::vector<int>> maze(rows, std::vector<int>(cols, 0)); //create a 10 by 10 grid for a maze to be made
-
-	std::random_device rd; //seed for random number generator
-	std::mt19937 gen(rd()); //initialize random number generator with the seed
-	std::uniform_int_distribution<> dist(0, 99); //create a uniform distribution to generate random numbers between 0 and 99
-
-	for (int row = 0; row < rows; row++) { //loop through each row of the maze
-		for (int col = 0; col < cols; col++) { //loop through each column of the maze
-			if (dist(gen) < 30) { //30% chance of generating a wall (1) in the maze
-				maze[row][col] = 1; //set the current position in the maze to a wall (1)
-            }
-        }
-    }
-
+	std::vector<std::vector<int>> maze = generateMaze(rows, cols); //generate a random maze with the specified number of rows and columns
+    
     Node start{ 0, 0, 0, 0, 0, -1, -1 }; //initialize start node with row, col, g, h, f values
     Node goal{ 3, 6, 0, 0, 0, -1, -1 }; //initialize goal node with row, col, g, h, f values
 
@@ -43,11 +32,6 @@ int main() {
 	start.f = start.g + start.h; //calculate the f value (total cost) for the start node
 
 	std::vector<Node> path = aStar(maze, start, goal); //call the aStar function to find the path from start to goal
-
-    while (path.empty()) {
-        // Regenerate the maze
-        // Run A* again
-    }
 
 	if (path.empty()) { //check if the path vector is empty, indicating that no path was found
         std::cout << "No path found!\n";
