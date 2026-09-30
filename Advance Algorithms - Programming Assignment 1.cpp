@@ -70,75 +70,76 @@ int main() {
         std::cin >> choice;
 
         switch (choice) {
-		case 1: // Generate new maze if user inputs 1
-			maze = generateMaze(rows, cols); //generate a random maze with the specified number of rows and columns
-			maze[start.row][start.col] = 0; //ensure that the starting position in the maze is a path (0) and not a wall (1)
-			mazeGenerated = true; //set mazeGenerated to true to indicate that a maze has been generated
-			path.clear(); //clear the path vector to remove any previous paths
-			goalSelected = false; //reset goalSelected to false since a new maze has been generated
-			std::cout << "MESSAGE: New maze generated!\n"; //display message to indicate that a new maze has been generated
-            break;
-
-		case 2: // Choose goal if user inputs 2 
-			if (!mazeGenerated) { //check if a maze has been generated before allowing the user to choose a goal
-                std::cout << "Generate a maze first!\n";
+		    case 1: // Generate new maze if user inputs 1
+			    maze = generateMaze(rows, cols); //generate a random maze with the specified number of rows and columns
+			    maze[start.row][start.col] = 0; //ensure that the starting position in the maze is a path (0) and not a wall (1)
+			    mazeGenerated = true; //set mazeGenerated to true to indicate that a maze has been generated
+			    path.clear(); //clear the path vector to remove any previous paths
+			    goalSelected = false; //reset goalSelected to false since a new maze has been generated
+			    std::cout << "MESSAGE: New maze generated!\n"; //display message to indicate that a new maze has been generated
                 break;
-            }
 
-            std::cout << "Enter goal row (0-19): ";
-            std::cin >> goal.row;
-            std::cout << "Enter goal column (0-19): ";
-            std::cin >> goal.col;
+		    case 2: // Choose goal if user inputs 2 
+			    if (!mazeGenerated) { //check if a maze has been generated before allowing the user to choose a goal
+                    std::cout << "Generate a maze first!\n";
+                    break;
+                }
 
-            if (goal.row < 0 || goal.row >= rows || goal.col < 0 || goal.col >= cols) { //check if the goal position is within the bounds of the maze
-                std::cout << "MESSAGE: Invalid goal position!\n";
+                std::cout << "Enter goal row (0-19): ";
+                std::cin >> goal.row;
+                std::cout << "Enter goal column (0-19): ";
+                std::cin >> goal.col;
+
+                if (goal.row < 0 || goal.row >= rows || goal.col < 0 || goal.col >= cols) { //check if the goal position is within the bounds of the maze
+                    std::cout << "MESSAGE: Invalid goal position!\n";
+                    break;
+                }
+
+                if (maze[goal.row][goal.col] == 1) { //check if the goal position in the maze is a wall(1)
+                    std::cout << "MESSAGE: That position is a wall!\n";
+                    break;
+                }
+
+			    goalSelected = true; //set goalSelected to true to indicate that a goal has been chosen
+			    path.clear(); //clear the path vector to remove any previous paths
+			    std::cout << "MESSAGE: Goal selected!\n"; //display message to indicate that a goal has been selected
                 break;
-            }
 
-            if (maze[goal.row][goal.col] == 1) { //check if the goal position in the maze is a wall(1)
-                std::cout << "MESSAGE: That position is a wall!\n";
+		    case 3: // Solve maze with A* if user inputs 3
+			    if (!mazeGenerated) { //check if a maze has been generated before allowing the user to solve the maze
+                    std::cout << "MESSAGE: Generate a maze first!\n";
+                    break;
+                }
+
+			    if (!goalSelected) { //check if a goal has been selected before allowing the user to solve the maze
+                    std::cout << "MESSAGE: Choose a goal first!\n";
+                    break;
+                }
+
+			    start.g = 0; //initialize g value for the start node
+			    start.h = std::abs(start.row - goal.row) + std::abs(start.col - goal.col); //calculate the heuristic value (h) for the start node using Manhattan distance
+			    start.f = start.g + start.h; //calculate the f value (total cost) for the start node
+
+			    path = aStar(maze, start, goal); //call the aStar function to find the path from start to goal
+
+			    if (path.empty()) { //check if the path vector is empty, indicating that no path was found
+                    std::cout << "MESSAGE: No path found! Regenerate maze or choose new goal\n";
+                }
+			    else { //if the path was found
+                    std::cout << "MESSAGE: Path found!\n";
+                    std::cout << "MESSAGE: Path length: " << path.size() - 1 << "\n";
+                }
                 break;
-            }
-
-			goalSelected = true; //set goalSelected to true to indicate that a goal has been chosen
-			path.clear(); //clear the path vector to remove any previous paths
-			std::cout << "MESSAGE: Goal selected!\n"; //display message to indicate that a goal has been selected
-            break;
-
-		case 3: // Solve maze with A* if user inputs 3
-			if (!mazeGenerated) { //check if a maze has been generated before allowing the user to solve the maze
-                std::cout << "MESSAGE: Generate a maze first!\n";
+		    case 4: // Exit if user inputs 4
+                std::cout << "Exiting A* Maze Solver...\n";
                 break;
-            }
 
-			if (!goalSelected) { //check if a goal has been selected before allowing the user to solve the maze
-                std::cout << "MESSAGE: Choose a goal first!\n";
-                break;
-            }
-
-			start.g = 0; //initialize g value for the start node
-			start.h = std::abs(start.row - goal.row) + std::abs(start.col - goal.col); //calculate the heuristic value (h) for the start node using Manhattan distance
-			start.f = start.g + start.h; //calculate the f value (total cost) for the start node
-
-			path = aStar(maze, start, goal); //call the aStar function to find the path from start to goal
-
-			if (path.empty()) { //check if the path vector is empty, indicating that no path was found
-                std::cout << "MESSAGE: No path found! Regenerate maze or choose new goal\n";
-            }
-			else { //if the path was found
-                std::cout << "MESSAGE: Path found!\n";
-                std::cout << "MESSAGE: Path length: " << path.size() - 1 << "\n";
-            }
-            break;
-		case 4: // Exit if user inputs 4
-            std::cout << "Exiting A* Maze Solver...\n";
-            break;
-
-		default: // Handle invalid option if user inputs an option other than 1, 2, 3, or 4
-            std::cout << "MESSAGE: Invalid option. Try again.\n";
+		    default: // Handle invalid option if user inputs an option other than 1, 2, 3, or 4
+                std::cout << "MESSAGE: Invalid option. Try again.\n";
         }
-
-    } while (choice != 5);
+    } 
+    
+	while (choice != 4); //loop until the user chooses to exit the program by inputting 4
 
     return 0;
 }

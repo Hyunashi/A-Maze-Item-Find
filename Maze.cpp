@@ -17,18 +17,15 @@ std::vector<std::vector<int>> generateMaze(int rows, int cols)
 
     std::vector<std::pair<int, int>> stack;// Store the cells we are currently exploring.
 
-    
     maze[0][0] = 0; 
     stack.push_back({ 0, 0 }); // Start at the top-left corner.
 
     const int dr[] = { -2, 2, 0, 0 }; // Directions: up, down, left, right.
     const int dc[] = { 0, 0, -2, 2 };
 
-    while (!stack.empty())
-    {
+    while (!stack.empty()) {
 		int row = stack.back().first; // Get the current cell's row and column.
         int col = stack.back().second;
-
         
         std::vector<int> neighbours; // Find unvisited neighbours two cells away.
 
